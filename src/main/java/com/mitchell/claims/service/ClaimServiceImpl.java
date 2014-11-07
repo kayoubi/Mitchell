@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import com.mitchell.claims.dao.ClaimRepository;
 import com.mitchell.claims.domain.Claim;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,6 +24,11 @@ public class ClaimServiceImpl implements ClaimService {
     @Override
     public List<Claim> getAll() {
         return claimRepository.findAll();
+    }
+
+    @Override
+    public List<Claim> search(Date lossDateFrom, Date lossDateTo) {
+        return claimRepository.findByLossDateBetween(lossDateFrom, lossDateTo);
     }
 
     @Override

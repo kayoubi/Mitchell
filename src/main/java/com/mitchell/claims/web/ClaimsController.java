@@ -1,10 +1,12 @@
 package com.mitchell.claims.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import com.mitchell.claims.domain.Claim;
 import com.mitchell.claims.service.ClaimService;
 import com.mitchell.claims.web.dto.ClaimsList;
+import java.util.Date;
 
 /**
  * @author Khaled Ayoubi
@@ -17,9 +19,14 @@ public class ClaimsController {
     @Autowired
     private ClaimService claimService;
 
+//    @RequestMapping(method = RequestMethod.GET)
+//    public ClaimsList getAll() {
+//        return new ClaimsList(claimService.getAll());
+//    }
+
     @RequestMapping(method = RequestMethod.GET)
-    public ClaimsList getAll() {
-        return new ClaimsList(claimService.getAll());
+    public ClaimsList search(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date lossDateFrom, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date lossDateTo) {
+        return new ClaimsList(claimService.search(lossDateFrom, lossDateTo == null ? new Date() : lossDateTo));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
