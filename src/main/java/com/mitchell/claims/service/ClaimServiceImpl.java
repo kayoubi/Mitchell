@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import com.mitchell.claims.dao.ClaimRepository;
 import com.mitchell.claims.domain.Claim;
+import java.util.List;
 
 /**
  * @author Khaled Ayoubi
@@ -20,12 +21,22 @@ public class ClaimServiceImpl implements ClaimService {
     }
 
     @Override
+    public List<Claim> getAll() {
+        return claimRepository.findAll();
+    }
+
+    @Override
     public Claim get(Long id) {
         return claimRepository.findById(id);
     }
 
     @Override
     public Claim create(Claim claim) {
+        return claimRepository.save(claim);
+    }
+
+    @Override
+    public Claim update(Claim claim) {
         return claimRepository.save(claim);
     }
 }
