@@ -41,6 +41,86 @@ public class Vehicle {
         this.vin = vin;
     }
 
+    public Integer getModelYear() {
+        return modelYear;
+    }
+
+    public void setModelYear(Integer modelYear) {
+        this.modelYear = modelYear;
+    }
+
+    public String getMakeDescription() {
+        return makeDescription;
+    }
+
+    public void setMakeDescription(String makeDescription) {
+        this.makeDescription = makeDescription;
+    }
+
+    public String getModelDescription() {
+        return modelDescription;
+    }
+
+    public void setModelDescription(String modelDescription) {
+        this.modelDescription = modelDescription;
+    }
+
+    public String getEngineDescription() {
+        return engineDescription;
+    }
+
+    public void setEngineDescription(String engineDescription) {
+        this.engineDescription = engineDescription;
+    }
+
+    public String getExteriorColor() {
+        return exteriorColor;
+    }
+
+    public void setExteriorColor(String exteriorColor) {
+        this.exteriorColor = exteriorColor;
+    }
+
+    public String getLicPlate() {
+        return licPlate;
+    }
+
+    public void setLicPlate(String licPlate) {
+        this.licPlate = licPlate;
+    }
+
+    public String getLicPlateState() {
+        return licPlateState;
+    }
+
+    public void setLicPlateState(String licPlateState) {
+        this.licPlateState = licPlateState;
+    }
+
+    public Date getLicPlateExpDate() {
+        return licPlateExpDate;
+    }
+
+    public void setLicPlateExpDate(Date licPlateExpDate) {
+        this.licPlateExpDate = licPlateExpDate;
+    }
+
+    public String getDamageDescription() {
+        return damageDescription;
+    }
+
+    public void setDamageDescription(String damageDescription) {
+        this.damageDescription = damageDescription;
+    }
+
+    public Long getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(Long mileage) {
+        this.mileage = mileage;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

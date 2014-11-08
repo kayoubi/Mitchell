@@ -17,6 +17,11 @@ public class VehicleBuilder {
         return this;
     }
 
+    public VehicleBuilder withModelYear(Integer year) {
+        vehicle.setModelYear(year);
+        return this;
+    }
+
     public Vehicle build() {
         return vehicle;
     }
