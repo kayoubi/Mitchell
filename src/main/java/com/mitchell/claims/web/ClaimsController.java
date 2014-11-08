@@ -4,9 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import com.mitchell.claims.domain.Claim;
+import com.mitchell.claims.domain.Vehicle;
+import com.mitchell.claims.domain.builder.ClaimBuilder;
+import com.mitchell.claims.domain.builder.VehicleBuilder;
 import com.mitchell.claims.service.ClaimService;
 import com.mitchell.claims.web.dto.ClaimsList;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * @author Khaled Ayoubi
@@ -36,11 +40,13 @@ public class ClaimsController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Claim create(@RequestBody Claim claim) {
+        claim.setId(null);
         return claimService.create(claim);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Claim update(@PathVariable Long id, @RequestBody Claim claim) {
+        claim.setId(id);
         return claimService.update(claim);
     }
 
@@ -49,10 +55,29 @@ public class ClaimsController {
         claimService.delete(id);
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
+    @RequestMapping(value = "/{claimId}/vehicles/{id}", method = RequestMethod.GET)
+    public Vehicle getVehicle(@PathVariable Long claimId, @PathVariable Long id) {
+        Claim claim = claimService.get(claimId);
+        if (claim != null) {
+            for (Vehicle vehicle : claim.getVehicles()) {
+                if (vehicle.getId().equals(id)) {
+                    return vehicle;
+                }
+            }
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/fixture", method = RequestMethod.GET)
+    public String fixture() {
         for (long i = 0; i < 5; i++) {
-            claimService.create(new Claim(i, "Claim " + i));
+            Claim c = new ClaimBuilder()
+                        .withClaimNumber(new Random().nextLong())
+                        .withLossDate(new Date())
+                        .withVehicle(new VehicleBuilder().withVin(("vin " + i)).build())
+                        .withVehicle(new VehicleBuilder().withVin(("vin2 " + i)).build())
+                        .build();
+            claimService.create(c);
         }
         return "DONE!";
     }

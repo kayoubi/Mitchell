@@ -10,6 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.mitchell.claims.domain.Claim;
+import com.mitchell.claims.domain.builder.ClaimBuilder;
+import com.mitchell.claims.domain.builder.VehicleBuilder;
 import com.mitchell.claims.service.ClaimService;
 
 import java.text.SimpleDateFormat;
@@ -53,19 +55,27 @@ public class ClaimsControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        String body = "<claim><name>khaled</name></claim>";
+        String body =   "<claim>" +
+                            "<claimantFirstName>khaled</claimantFirstName>" +
+                            "<vehicles>" +
+                                "<vehicleDetails>" +
+                                    "<vin>3Ue</vin>" +
+                                "</vehicleDetails>" +
+                            "</vehicles>" +
+                        "</claim>";
         this.mockMvc.perform(post("/claims").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
 
-        verify(claimService).create(new Claim(null, "khaled"));
+        Claim c = new ClaimBuilder().withFirstName("khaled").withVehicle(new VehicleBuilder().withVin("3Ue").build()).build();
+        verify(claimService).create(c);
     }
 
     @Test
     public void testUpdate() throws Exception {
-        String body = "<claim><id>1</id><name>test</name></claim>";
+        String body = "<claim><id>1</id><claimantFirstName>test</claimantFirstName></claim>";
         this.mockMvc.perform(put("/claims/1").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
-        verify(claimService).update(new Claim(1L, "test"));
+        verify(claimService).update(new ClaimBuilder().withId(1L).withFirstName("test").build());
     }
 
     @Test
@@ -73,5 +83,11 @@ public class ClaimsControllerTest {
         this.mockMvc.perform(delete("/claims/1").accept(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
         verify(claimService).delete(1L);
+    }
+
+    @Test
+    public void testGetVehicle() throws Exception {
+        this.mockMvc.perform(get("/claims/1/vehicles/2").accept(MediaType.APPLICATION_XML))
+                .andExpect(status().is(200));
     }
 }
