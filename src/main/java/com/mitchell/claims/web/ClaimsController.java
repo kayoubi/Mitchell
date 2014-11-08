@@ -39,9 +39,14 @@ public class ClaimsController {
         return claimService.create(claim);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public Claim update(@RequestBody Claim claim) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Claim update(@PathVariable Long id, @RequestBody Claim claim) {
         return claimService.update(claim);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable Long id) {
+        claimService.delete(id);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)

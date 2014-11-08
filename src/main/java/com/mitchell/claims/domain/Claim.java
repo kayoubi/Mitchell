@@ -53,4 +53,41 @@ public class Claim implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Claim)) return false;
+
+        Claim claim = (Claim) o;
+
+        if (assignedAdjusterID != null ? !assignedAdjusterID.equals(claim.assignedAdjusterID) : claim.assignedAdjusterID != null)
+            return false;
+        if (claimNumber != null ? !claimNumber.equals(claim.claimNumber) : claim.claimNumber != null) return false;
+        if (claimStatus != claim.claimStatus) return false;
+        if (claimantFirstName != null ? !claimantFirstName.equals(claim.claimantFirstName) : claim.claimantFirstName != null)
+            return false;
+        if (claimantLastName != null ? !claimantLastName.equals(claim.claimantLastName) : claim.claimantLastName != null)
+            return false;
+        if (id != null ? !id.equals(claim.id) : claim.id != null) return false;
+        if (lossDate != null ? !lossDate.equals(claim.lossDate) : claim.lossDate != null) return false;
+        if (lossInfo != null ? !lossInfo.equals(claim.lossInfo) : claim.lossInfo != null) return false;
+        if (name != null ? !name.equals(claim.name) : claim.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (claimNumber != null ? claimNumber.hashCode() : 0);
+        result = 31 * result + (claimantFirstName != null ? claimantFirstName.hashCode() : 0);
+        result = 31 * result + (claimantLastName != null ? claimantLastName.hashCode() : 0);
+        result = 31 * result + (claimStatus != null ? claimStatus.hashCode() : 0);
+        result = 31 * result + (lossDate != null ? lossDate.hashCode() : 0);
+        result = 31 * result + (lossInfo != null ? lossInfo.hashCode() : 0);
+        result = 31 * result + (assignedAdjusterID != null ? assignedAdjusterID.hashCode() : 0);
+        return result;
+    }
 }

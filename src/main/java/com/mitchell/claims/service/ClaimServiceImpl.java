@@ -45,4 +45,9 @@ public class ClaimServiceImpl implements ClaimService {
     public Claim update(Claim claim) {
         return claimRepository.save(claim);
     }
+
+    @Override
+    public void delete(Long id) {
+        claimRepository.delete(id);
+    }
 }

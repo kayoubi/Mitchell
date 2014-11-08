@@ -16,4 +16,6 @@ public interface ClaimRepository extends Repository<Claim, Long> {
     Claim findById(Long id);
 
     Claim save(Claim claim);
+
+    void delete(Long id);
 }
