@@ -9,6 +9,7 @@ import com.mitchell.claims.domain.builder.ClaimBuilder;
 import com.mitchell.claims.domain.builder.VehicleBuilder;
 import com.mitchell.claims.service.ClaimService;
 import com.mitchell.claims.web.dto.ClaimsList;
+import com.mitchell.claims.web.helper.NullAwareBeanUtilsBean;
 import java.util.Date;
 import java.util.Random;
 
@@ -45,9 +46,12 @@ public class ClaimsController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Claim update(@PathVariable Long id, @RequestBody Claim claim) {
+    public Claim update(@PathVariable Long id, @RequestBody Claim claim) throws Exception {
         claim.setId(id);
-        return claimService.update(claim);
+
+        Claim original = claimService.get(id);
+        new NullAwareBeanUtilsBean().copyProperties(original, claim);
+        return claimService.update(original);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

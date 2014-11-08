@@ -37,7 +37,7 @@ public class ClaimBuilder {
 
     public ClaimBuilder withVehicle(Vehicle vehicle) {
         if (claim.getVehicles() == null) {
-            claim.setVehicles(new ArrayList<>());
+            claim.setVehicles(new ArrayList<Vehicle>());
         }
         claim.getVehicles().add(vehicle);
         return this;
