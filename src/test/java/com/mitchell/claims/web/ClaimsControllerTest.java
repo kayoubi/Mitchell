@@ -8,13 +8,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import com.mitchell.claims.domain.Claim;
 import com.mitchell.claims.domain.builder.ClaimBuilder;
 import com.mitchell.claims.domain.builder.VehicleBuilder;
 import com.mitchell.claims.service.ClaimService;
-
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -22,7 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * @author Khaled Ayoubi
- *
  */
 public class ClaimsControllerTest {
     private MockMvc mockMvc;
@@ -55,14 +53,14 @@ public class ClaimsControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        String body =   "<claim>" +
-                            "<claimantFirstName>khaled</claimantFirstName>" +
-                            "<vehicles>" +
-                                "<vehicleDetails>" +
-                                    "<vin>3Ue</vin>" +
-                                "</vehicleDetails>" +
-                            "</vehicles>" +
-                        "</claim>";
+        String body = "<claim>" +
+                "<claimantFirstName>khaled</claimantFirstName>" +
+                "<vehicles>" +
+                "<vehicleDetails>" +
+                "<vin>3Ue</vin>" +
+                "</vehicleDetails>" +
+                "</vehicles>" +
+                "</claim>";
         this.mockMvc.perform(post("/claims").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
 
@@ -72,10 +70,23 @@ public class ClaimsControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
+        when(claimService.get(anyLong())).thenReturn(new ClaimBuilder().withId(1L).withFirstName("khaled").build());
+
         String body = "<claim><id>1</id><claimantFirstName>test</claimantFirstName></claim>";
         this.mockMvc.perform(put("/claims/1").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
         verify(claimService).update(new ClaimBuilder().withId(1L).withFirstName("test").build());
+    }
+
+    @Test
+    public void testUpdateNullNotUpdated() throws Exception {
+        Date now = new Date();
+        when(claimService.get(anyLong())).thenReturn(new ClaimBuilder().withId(1L).withLossDate(now).build());
+
+        String body = "<claim><id>1</id><claimantFirstName>test</claimantFirstName></claim>";
+        this.mockMvc.perform(put("/claims/1").content(body).contentType(MediaType.APPLICATION_XML))
+                .andExpect(status().is(200));
+        verify(claimService).update(new ClaimBuilder().withId(1L).withFirstName("test").withLossDate(now).build());
     }
 
     @Test
