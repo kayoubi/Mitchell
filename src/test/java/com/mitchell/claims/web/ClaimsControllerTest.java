@@ -54,17 +54,17 @@ public class ClaimsControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        String body =   "<claim>" +
-                            "<claimantFirstName>khaled</claimantFirstName>" +
-                            "<vehicles>" +
-                                "<vehicleDetails>" +
-                                    "<vin>3Ue</vin>" +
-                                "</vehicleDetails>" +
-                            "</vehicles>" +
-                            "<lossInfo>" +
-                                "<causeOfLoss>Collision</causeOfLoss>" +
-                            "</lossInfo>" +
-                        "</claim>";
+        String body =   "<cla:claim xmlns:cla=\"http://www.mitchell.com/examples/claim\">" +
+                            "<cla:claimantFirstName>khaled</cla:claimantFirstName>" +
+                            "<cla:vehicles>" +
+                                "<cla:vehicleDetails>" +
+                                    "<cla:vin>3Ue</cla:vin>" +
+                                "</cla:vehicleDetails>" +
+                            "</cla:vehicles>" +
+                            "<cla:lossInfo>" +
+                                "<cla:causeOfLoss>Collision</cla:causeOfLoss>" +
+                            "</cla:lossInfo>" +
+                        "</cla:claim>";
         this.mockMvc.perform(post("/claims").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
 
@@ -105,7 +105,9 @@ public class ClaimsControllerTest {
     public void testUpdate() throws Exception {
         when(claimService.get(anyLong())).thenReturn(new ClaimBuilder().withId(1L).withFirstName("khaled").build());
 
-        String body = "<claim><id>1</id><claimantFirstName>test</claimantFirstName></claim>";
+        String body =   "<cla:claim xmlns:cla=\"http://www.mitchell.com/examples/claim\">" +
+                            "<cla:claimantFirstName>test</cla:claimantFirstName>" +
+                        "</cla:claim>";
         this.mockMvc.perform(put("/claims/1").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
         verify(claimService).update(new ClaimBuilder().withId(1L).withFirstName("test").build());
@@ -116,7 +118,9 @@ public class ClaimsControllerTest {
         Date now = new Date();
         when(claimService.get(anyLong())).thenReturn(new ClaimBuilder().withId(1L).withLossDate(now).build());
 
-        String body = "<claim><id>1</id><claimantFirstName>test</claimantFirstName></claim>";
+        String body =   "<cla:claim xmlns:cla=\"http://www.mitchell.com/examples/claim\">" +
+                            "<cla:claimantFirstName>test</cla:claimantFirstName>" +
+                        "</cla:claim>";
         this.mockMvc.perform(put("/claims/1").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
         verify(claimService).update(new ClaimBuilder().withId(1L).withFirstName("test").withLossDate(now).build());
@@ -132,7 +136,9 @@ public class ClaimsControllerTest {
                         .withVehicle(new VehicleBuilder().withModelYear(2014).build())
                         .build());
 
-        String body = "<claim><id>1</id><claimantFirstName>test</claimantFirstName></claim>";
+        String body =   "<cla:claim xmlns:cla=\"http://www.mitchell.com/examples/claim\">" +
+                            "<cla:claimantFirstName>test</cla:claimantFirstName>" +
+                        "</cla:claim>";
         this.mockMvc.perform(put("/claims/1").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
         verify(claimService).update(new ClaimBuilder().withId(1L).withFirstName("test")

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.mitchell.claims.domain.Claim;
 import com.mitchell.claims.domain.Vehicle;
 import com.mitchell.claims.domain.builder.ClaimBuilder;
+import com.mitchell.claims.domain.builder.LossInfoBuilder;
 import com.mitchell.claims.domain.builder.VehicleBuilder;
 import com.mitchell.claims.service.ClaimService;
 import com.mitchell.claims.web.dto.ClaimsList;
@@ -42,8 +43,8 @@ public class ClaimsController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Claim create(@RequestBody @Valid Claim claim) {
-        claim.setId(null);
-        return claimService.create(claim);
+            claim.setId(null);
+            return claimService.create(claim);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
@@ -81,6 +82,7 @@ public class ClaimsController {
                         .withLossDate(new Date())
                         .withVehicle(new VehicleBuilder().withVin(("vin " + i)).build())
                         .withVehicle(new VehicleBuilder().withVin(("vin2 " + i)).build())
+                        .withLossInf(new LossInfoBuilder().withCauseOfLoss("Collision").build())
                         .build();
             claimService.create(c);
         }

@@ -13,6 +13,7 @@ import java.util.List;
  */
 @Entity
 @XmlRootElement
+@XmlType(name = "cla", namespace="http://www.mitchell.com/examples/claim")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Claim implements Serializable {
     @Id
