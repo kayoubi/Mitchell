@@ -8,16 +8,22 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
+import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
 import com.mitchell.claims.domain.Claim;
 import com.mitchell.claims.domain.builder.ClaimBuilder;
 import com.mitchell.claims.domain.builder.LossInfoBuilder;
 import com.mitchell.claims.domain.builder.VehicleBuilder;
 import com.mitchell.claims.service.ClaimService;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -35,7 +41,19 @@ public class ClaimsControllerTest {
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(claimsController).build();
+
+        ExceptionHandlerExceptionResolver exceptionResolver =  new ExceptionHandlerExceptionResolver() {
+            @Override
+            protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod, Exception exception) {
+                Method method = new ExceptionHandlerMethodResolver(GlobalController.class).resolveMethod(exception);
+                return new ServletInvocableHandlerMethod(new GlobalController(), method);
+            }
+        };
+        exceptionResolver.afterPropertiesSet();
+
+        this.mockMvc = MockMvcBuilders.standaloneSetup(claimsController)
+                        .setHandlerExceptionResolvers(exceptionResolver)
+                        .build();
     }
 
     @Test
@@ -76,29 +94,39 @@ public class ClaimsControllerTest {
     }
 
     @Test
-    public void testCreateWithNoVehicleThrowsException() throws Exception {
-        String body =   "<claim>" +
-                            "<claimantFirstName>khaled</claimantFirstName>" +
-                         "</claim>";
+    public void testCreateWithInvalidContentThrowsException() throws Exception {
+        String body = "BAD CONTENT";
         this.mockMvc.perform(post("/claims").content(body).contentType(MediaType.APPLICATION_XML))
-                .andExpect(status().is(400));
+                .andExpect(status().is(400))
+                .andExpect(content().string(GlobalController.MARSHALLING));
+    }
+
+    @Test
+    public void testCreateWithNoVehicleThrowsException() throws Exception {
+        String body =   "<cla:MitchellClaim xmlns:cla=\"http://www.mitchell.com/examples/claim\">" +
+                            "<cla:claimantFirstName>khaled</cla:claimantFirstName>" +
+                         "</cla:MitchellClaim>";
+        this.mockMvc.perform(post("/claims").content(body).contentType(MediaType.APPLICATION_XML))
+                .andExpect(status().is(400))
+                .andExpect(content().string(GlobalController.VALIDATION));
     }
 
     @Test
     public void testCreateWithInvalidLossCodeThrowsException() throws Exception {
-        String body =   "<claim>" +
-                            "<claimantFirstName>khaled</claimantFirstName>" +
-                            "<vehicles>" +
-                                "<vehicleDetails>" +
-                                    "<vin>3Ue</vin>" +
-                                "</vehicleDetails>" +
-                            "</vehicles>" +
-                            "<lossInfo>" +
-                                "<causeOfLoss>Invalid Code</causeOfLoss>" +
-                            "</lossInfo>" +
-                        "</claim>";
+        String body =   "<cla:MitchellClaim xmlns:cla=\"http://www.mitchell.com/examples/claim\">" +
+                            "<cla:claimantFirstName>khaled</cla:claimantFirstName>" +
+                            "<cla:vehicles>" +
+                                "<cla:vehicleDetails>" +
+                                    "<cla:vin>3Ue</cla:vin>" +
+                                "</cla:vehicleDetails>" +
+                            "</cla:vehicles>" +
+                            "<cla:lossInfo>" +
+                                "<cla:causeOfLoss>Invalid Code</cla:causeOfLoss>" +
+                            "</cla:lossInfo>" +
+                        "</cla:MitchellClaim>";
         this.mockMvc.perform(post("/claims").content(body).contentType(MediaType.APPLICATION_XML))
-                .andExpect(status().is(400));
+                .andExpect(status().is(400))
+                .andExpect(content().string(GlobalController.VALIDATION));
     }
 
     @Test
