@@ -9,7 +9,7 @@ import com.mitchell.claims.domain.builder.ClaimBuilder;
 import com.mitchell.claims.domain.builder.LossInfoBuilder;
 import com.mitchell.claims.domain.builder.VehicleBuilder;
 import com.mitchell.claims.service.ClaimService;
-import com.mitchell.claims.web.dto.ClaimsList;
+import com.mitchell.claims.domain.ClaimsList;
 import com.mitchell.claims.web.helper.NullAwareBeanUtilsBean;
 import javax.validation.Valid;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.mitchell.claims.web.dto;
+package com.mitchell.claims.domain;
 
 import com.mitchell.claims.domain.Claim;
 import javax.xml.bind.annotation.XmlElement;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Khaled Ayoubi
  */
-@XmlRootElement(name = "claims")
+@XmlRootElement(name = "MitchellClaims")
 public class ClaimsList {
     private List<Claim> claims;
 
@@ -19,7 +19,7 @@ public class ClaimsList {
         this.claims = claims;
     }
 
-    @XmlElement(name = "claim")
+    @XmlElement(name = "MitchellClaim")
     public List<Claim> getClaims() {
         return claims;
     }

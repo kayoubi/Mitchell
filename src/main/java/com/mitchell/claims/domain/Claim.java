@@ -12,7 +12,7 @@ import java.util.List;
  * @author Khaled Ayoubi
  */
 @Entity
-@XmlRootElement
+@XmlRootElement(name = "MitchellClaim")
 @XmlType(name = "cla", namespace="http://www.mitchell.com/examples/claim")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Claim implements Serializable {
