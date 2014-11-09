@@ -1,6 +1,7 @@
 package com.mitchell.claims.domain.builder;
 
 import com.mitchell.claims.domain.Claim;
+import com.mitchell.claims.domain.LossInfo;
 import com.mitchell.claims.domain.Vehicle;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,6 +41,11 @@ public class ClaimBuilder {
             claim.setVehicles(new ArrayList<Vehicle>());
         }
         claim.getVehicles().add(vehicle);
+        return this;
+    }
+
+    public ClaimBuilder withLossInf(LossInfo lossInfo) {
+        claim.setLossInfo(lossInfo);
         return this;
     }
 

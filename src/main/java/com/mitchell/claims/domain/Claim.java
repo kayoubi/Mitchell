@@ -1,6 +1,7 @@
 package com.mitchell.claims.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import com.mitchell.claims.domain.validator.ValidLossInfo;
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -22,6 +23,7 @@ public class Claim implements Serializable {
     private String claimantLastName;
     private ClaimStatus claimStatus;
     private Date lossDate;
+    @ValidLossInfo
     @OneToOne
     private LossInfo lossInfo;
     private Long assignedAdjusterID;

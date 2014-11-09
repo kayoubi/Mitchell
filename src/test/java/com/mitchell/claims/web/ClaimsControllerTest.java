@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.mitchell.claims.domain.Claim;
 import com.mitchell.claims.domain.builder.ClaimBuilder;
+import com.mitchell.claims.domain.builder.LossInfoBuilder;
 import com.mitchell.claims.domain.builder.VehicleBuilder;
 import com.mitchell.claims.service.ClaimService;
 import java.text.SimpleDateFormat;
@@ -60,11 +61,17 @@ public class ClaimsControllerTest {
                                     "<vin>3Ue</vin>" +
                                 "</vehicleDetails>" +
                             "</vehicles>" +
+                            "<lossInfo>" +
+                                "<causeOfLoss>Collision</causeOfLoss>" +
+                            "</lossInfo>" +
                         "</claim>";
         this.mockMvc.perform(post("/claims").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
 
-        Claim c = new ClaimBuilder().withFirstName("khaled").withVehicle(new VehicleBuilder().withVin("3Ue").build()).build();
+        Claim c = new ClaimBuilder().withFirstName("khaled")
+                                    .withVehicle(new VehicleBuilder().withVin("3Ue").build())
+                                    .withLossInf(new LossInfoBuilder().withCauseOfLoss("Collision").build())
+                                    .build();
         verify(claimService).create(c);
     }
 
@@ -73,6 +80,23 @@ public class ClaimsControllerTest {
         String body =   "<claim>" +
                             "<claimantFirstName>khaled</claimantFirstName>" +
                          "</claim>";
+        this.mockMvc.perform(post("/claims").content(body).contentType(MediaType.APPLICATION_XML))
+                .andExpect(status().is(400));
+    }
+
+    @Test
+    public void testCreateWithInvalidLossCodeThrowsException() throws Exception {
+        String body =   "<claim>" +
+                            "<claimantFirstName>khaled</claimantFirstName>" +
+                            "<vehicles>" +
+                                "<vehicleDetails>" +
+                                    "<vin>3Ue</vin>" +
+                                "</vehicleDetails>" +
+                            "</vehicles>" +
+                            "<lossInfo>" +
+                                "<causeOfLoss>Invalid Code</causeOfLoss>" +
+                            "</lossInfo>" +
+                        "</claim>";
         this.mockMvc.perform(post("/claims").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(400));
     }
