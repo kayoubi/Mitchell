@@ -17,6 +17,8 @@ import com.mitchell.claims.domain.Claim;
 import com.mitchell.claims.domain.builder.ClaimBuilder;
 import com.mitchell.claims.domain.builder.VehicleBuilder;
 
+import java.text.SimpleDateFormat;
+
 import static org.junit.Assert.*;
 
 
@@ -80,18 +82,25 @@ public class ClaimServiceIntegrationTest {
 
     @Test
     public void testCreate() {
-        assertEquals(1, claimService.getAll().size());
+        assertEquals(2, claimService.getAll().size());
         Claim claim = new ClaimBuilder().withFirstName("khaled")
                                         .withClaimNumber(345L)
                                         .withVehicle(new VehicleBuilder().withVin("vin").withModelYear(2004).build())
                                         .build();
         claimService.create(claim);
-        assertEquals(2, claimService.getAll().size());
-        Claim newClaim = claimService.getAll().get(1);
+        assertEquals(3, claimService.getAll().size());
+        Claim newClaim = claimService.getAll().get(2);
         assertEquals("khaled", newClaim.getClaimantFirstName());
         assertEquals(345, newClaim.getClaimNumber().longValue());
         assertEquals(1, newClaim.getVehicles().size());
         assertEquals("vin", newClaim.getVehicles().get(0).getVin());
         assertEquals(2004, newClaim.getVehicles().get(0).getModelYear().intValue());
+    }
+
+    @Test
+    public void testSearch() throws Exception {
+        assertEquals(2, claimService.search(new SimpleDateFormat("yyyy-MM-dd").parse("2014-07-10"), new SimpleDateFormat("yyyy-MM-dd").parse("2014-12-10")).size());
+        assertEquals(1, claimService.search(new SimpleDateFormat("yyyy-MM-dd").parse("2014-10-07"), new SimpleDateFormat("yyyy-MM-dd").parse("2014-10-10")).size());
+        assertEquals(0, claimService.search(new SimpleDateFormat("yyyy-MM-dd").parse("2015-07-10"), new SimpleDateFormat("yyyy-MM-dd").parse("2015-12-10")).size());
     }
 }
