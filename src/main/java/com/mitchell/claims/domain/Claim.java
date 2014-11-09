@@ -24,7 +24,7 @@ public class Claim implements Serializable {
     private ClaimStatus claimStatus;
     private Date lossDate;
     @ValidLossInfo
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private LossInfo lossInfo;
     private Long assignedAdjusterID;
     @NotEmpty

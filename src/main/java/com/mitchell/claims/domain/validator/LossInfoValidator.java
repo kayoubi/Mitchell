@@ -19,6 +19,6 @@ public class LossInfoValidator implements ConstraintValidator<ValidLossInfo, Los
 
     @Override
     public boolean isValid(LossInfo s, ConstraintValidatorContext constraintValidatorContext) {
-        return s != null && validCodes.contains(s.getCauseOfLoss());
+        return s == null || validCodes.contains(s.getCauseOfLoss());
     }
 }

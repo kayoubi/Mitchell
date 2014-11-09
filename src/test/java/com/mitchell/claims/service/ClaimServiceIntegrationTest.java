@@ -15,6 +15,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.mitchell.claims.Application;
 import com.mitchell.claims.domain.Claim;
 import com.mitchell.claims.domain.builder.ClaimBuilder;
+import com.mitchell.claims.domain.builder.LossInfoBuilder;
 import com.mitchell.claims.domain.builder.VehicleBuilder;
 
 import java.text.SimpleDateFormat;
@@ -85,6 +86,7 @@ public class ClaimServiceIntegrationTest {
         assertEquals(2, claimService.getAll().size());
         Claim claim = new ClaimBuilder().withFirstName("khaled")
                                         .withClaimNumber(345L)
+                                        .withLossInf(new LossInfoBuilder().withCauseOfLoss("Collision").build())
                                         .withVehicle(new VehicleBuilder().withVin("vin").withModelYear(2004).build())
                                         .build();
         claimService.create(claim);
@@ -95,6 +97,7 @@ public class ClaimServiceIntegrationTest {
         assertEquals(1, newClaim.getVehicles().size());
         assertEquals("vin", newClaim.getVehicles().get(0).getVin());
         assertEquals(2004, newClaim.getVehicles().get(0).getModelYear().intValue());
+        assertEquals("Collision", newClaim.getLossInfo().getCauseOfLoss());
     }
 
     @Test
