@@ -58,14 +58,14 @@ public class ClaimsControllerTest {
 
     @Test
     public void testSearch() throws Exception {
-        this.mockMvc.perform(get("/claims?lossDateFrom=2014-07-10&lossDateTo=2014-07-11").accept(MediaType.APPLICATION_XML))
+        this.mockMvc.perform(get("/mitchell/claims?lossDateFrom=2014-07-10&lossDateTo=2014-07-11").accept(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
         verify(claimService).search(new SimpleDateFormat("yyyy-MM-dd").parse("2014-07-10"), new SimpleDateFormat("yyyy-MM-dd").parse("2014-07-11"));
     }
 
     @Test
     public void testGet() throws Exception {
-        this.mockMvc.perform(get("/claims/1").accept(MediaType.APPLICATION_XML))
+        this.mockMvc.perform(get("/mitchell/claims/1").accept(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
         verify(claimService).get(1L);
     }
@@ -83,7 +83,7 @@ public class ClaimsControllerTest {
                                 "<cla:causeOfLoss>Collision</cla:causeOfLoss>" +
                             "</cla:lossInfo>" +
                         "</cla:MitchellClaim>";
-        this.mockMvc.perform(post("/claims").content(body).contentType(MediaType.APPLICATION_XML))
+        this.mockMvc.perform(post("/mitchell/claims").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
 
         Claim c = new ClaimBuilder().withFirstName("khaled")
@@ -96,7 +96,7 @@ public class ClaimsControllerTest {
     @Test
     public void testCreateWithInvalidContentThrowsException() throws Exception {
         String body = "BAD CONTENT";
-        this.mockMvc.perform(post("/claims").content(body).contentType(MediaType.APPLICATION_XML))
+        this.mockMvc.perform(post("/mitchell/claims").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(400))
                 .andExpect(content().string(GlobalController.MARSHALLING));
     }
@@ -106,7 +106,7 @@ public class ClaimsControllerTest {
         String body =   "<cla:MitchellClaim xmlns:cla=\"http://www.mitchell.com/examples/claim\">" +
                             "<cla:claimantFirstName>khaled</cla:claimantFirstName>" +
                          "</cla:MitchellClaim>";
-        this.mockMvc.perform(post("/claims").content(body).contentType(MediaType.APPLICATION_XML))
+        this.mockMvc.perform(post("/mitchell/claims").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(400))
                 .andExpect(content().string(GlobalController.VALIDATION));
     }
@@ -124,7 +124,7 @@ public class ClaimsControllerTest {
                                 "<cla:causeOfLoss>Invalid Code</cla:causeOfLoss>" +
                             "</cla:lossInfo>" +
                         "</cla:MitchellClaim>";
-        this.mockMvc.perform(post("/claims").content(body).contentType(MediaType.APPLICATION_XML))
+        this.mockMvc.perform(post("/mitchell/claims").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(400))
                 .andExpect(content().string(GlobalController.VALIDATION));
     }
@@ -136,7 +136,7 @@ public class ClaimsControllerTest {
         String body =   "<cla:MitchellClaim xmlns:cla=\"http://www.mitchell.com/examples/claim\">" +
                             "<cla:claimantFirstName>test</cla:claimantFirstName>" +
                         "</cla:MitchellClaim>";
-        this.mockMvc.perform(put("/claims/1").content(body).contentType(MediaType.APPLICATION_XML))
+        this.mockMvc.perform(put("/mitchell/claims/1").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
         verify(claimService).update(new ClaimBuilder().withId(1L).withFirstName("test").build());
     }
@@ -149,7 +149,7 @@ public class ClaimsControllerTest {
         String body =   "<cla:MitchellClaim xmlns:cla=\"http://www.mitchell.com/examples/claim\">" +
                             "<cla:claimantFirstName>test</cla:claimantFirstName>" +
                         "</cla:MitchellClaim>";
-        this.mockMvc.perform(put("/claims/1").content(body).contentType(MediaType.APPLICATION_XML))
+        this.mockMvc.perform(put("/mitchell/claims/1").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
         verify(claimService).update(new ClaimBuilder().withId(1L).withFirstName("test").withLossDate(now).build());
     }
@@ -167,7 +167,7 @@ public class ClaimsControllerTest {
         String body =   "<cla:MitchellClaim xmlns:cla=\"http://www.mitchell.com/examples/claim\">" +
                             "<cla:claimantFirstName>test</cla:claimantFirstName>" +
                         "</cla:MitchellClaim>";
-        this.mockMvc.perform(put("/claims/1").content(body).contentType(MediaType.APPLICATION_XML))
+        this.mockMvc.perform(put("/mitchell/claims/1").content(body).contentType(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
         verify(claimService).update(new ClaimBuilder().withId(1L).withFirstName("test")
                 .withLossDate(now).withVehicle(new VehicleBuilder().withModelYear(2014).build()).build());
@@ -175,14 +175,14 @@ public class ClaimsControllerTest {
 
     @Test
     public void testDelete() throws Exception {
-        this.mockMvc.perform(delete("/claims/1").accept(MediaType.APPLICATION_XML))
+        this.mockMvc.perform(delete("/mitchell/claims/1").accept(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
         verify(claimService).delete(1L);
     }
 
     @Test
     public void testGetVehicle() throws Exception {
-        this.mockMvc.perform(get("/claims/1/vehicles/2").accept(MediaType.APPLICATION_XML))
+        this.mockMvc.perform(get("/mitchell/claims/1/vehicles/2").accept(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
     }
 }

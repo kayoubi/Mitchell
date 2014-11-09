@@ -20,7 +20,7 @@ import java.util.Random;
  */
 
 @RestController
-@RequestMapping("/claims")
+@RequestMapping("/mitchell/claims")
 public class ClaimsController {
 
     @Autowired
