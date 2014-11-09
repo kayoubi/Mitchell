@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<dataset>
+    <claim id="1" claim_Number="5391224937543113779" loss_Date="2014-11-08"/>
+    <vehicle id ="1" vin="vin1-1"/>
+    <vehicle id ="2" vin="vin1-2"/>
+    <claim_vehicles claim_id="1" vehicles_id="1"/>
+    <claim_vehicles claim_id="1" vehicles_id="2"/>
+        <!--<vehicles>-->
+            <!--<vehicleDetails>-->
+                <!--<id>1</id>-->
+                <!--<vin>vin 0</vin>-->
+            <!--</vehicleDetails>-->
+            <!--<vehicleDetails>-->
+                <!--<id>2</id>-->
+                <!--<vin>vin2 0</vin>-->
+            <!--</vehicleDetails>-->
+        <!--</vehicles>-->
+    <!--</claim>-->
+    <!--<claim>-->
+        <!--<id>2</id>-->
+        <!--<claimNumber>-7374643502454078708</claimNumber>-->
+        <!--<lossDate>2014-11-08T19:07:28.847-08:00</lossDate>-->
+        <!--<vehicles>-->
+            <!--<vehicleDetails>-->
+                <!--<id>3</id>-->
+                <!--<vin>vin 1</vin>-->
+            <!--</vehicleDetails>-->
+            <!--<vehicleDetails>-->
+                <!--<id>4</id>-->
+                <!--<vin>vin2 1</vin>-->
+            <!--</vehicleDetails>-->
+        <!--</vehicles>-->
+    <!--</claim>-->
+    <!--<claim>-->
+        <!--<id>3</id>-->
+        <!--<claimNumber>-4268291443420465250</claimNumber>-->
+        <!--<lossDate>2014-11-08T19:07:28.851-08:00</lossDate>-->
+        <!--<vehicles>-->
+            <!--<vehicleDetails>-->
+                <!--<id>5</id>-->
+                <!--<vin>vin 2</vin>-->
+            <!--</vehicleDetails>-->
+            <!--<vehicleDetails>-->
+                <!--<id>6</id>-->
+                <!--<vin>vin2 2</vin>-->
+            <!--</vehicleDetails>-->
+        <!--</vehicles>-->
+    <!--</claim>-->
+    <!--<claim>-->
+        <!--<id>4</id>-->
+        <!--<claimNumber>-5150170081211340154</claimNumber>-->
+        <!--<lossDate>2014-11-08T19:07:28.856-08:00</lossDate>-->
+        <!--<vehicles>-->
+            <!--<vehicleDetails>-->
+                <!--<id>7</id>-->
+                <!--<vin>vin 3</vin>-->
+            <!--</vehicleDetails>-->
+            <!--<vehicleDetails>-->
+                <!--<id>8</id>-->
+                <!--<vin>vin2 3</vin>-->
+            <!--</vehicleDetails>-->
+        <!--</vehicles>-->
+    <!--</claim>-->
+    <!--<claim>-->
+        <!--<id>5</id>-->
+        <!--<claimNumber>3622059523096961510</claimNumber>-->
+        <!--<lossDate>2014-11-08T19:07:28.862-08:00</lossDate>-->
+        <!--<vehicles>-->
+            <!--<vehicleDetails>-->
+                <!--<id>9</id>-->
+                <!--<vin>vin 4</vin>-->
+            <!--</vehicleDetails>-->
+            <!--<vehicleDetails>-->
+                <!--<id>10</id>-->
+                <!--<vin>vin2 4</vin>-->
+            <!--</vehicleDetails>-->
+        <!--</vehicles>-->
+    <!--</claim>-->
+</dataset>
