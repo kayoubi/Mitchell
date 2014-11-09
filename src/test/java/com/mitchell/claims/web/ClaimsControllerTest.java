@@ -69,6 +69,15 @@ public class ClaimsControllerTest {
     }
 
     @Test
+    public void testCreateWithNoVehicleThrowsException() throws Exception {
+        String body =   "<claim>" +
+                            "<claimantFirstName>khaled</claimantFirstName>" +
+                         "</claim>";
+        this.mockMvc.perform(post("/claims").content(body).contentType(MediaType.APPLICATION_XML))
+                .andExpect(status().is(400));
+    }
+
+    @Test
     public void testUpdate() throws Exception {
         when(claimService.get(anyLong())).thenReturn(new ClaimBuilder().withId(1L).withFirstName("khaled").build());
 

@@ -1,5 +1,6 @@
 package com.mitchell.claims.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -24,6 +25,7 @@ public class Claim implements Serializable {
     @OneToOne
     private LossInfo lossInfo;
     private Long assignedAdjusterID;
+    @NotEmpty
     @XmlElementWrapper(name="vehicles")
     @XmlElement(name="vehicleDetails")
     @OneToMany(cascade = {CascadeType.ALL})

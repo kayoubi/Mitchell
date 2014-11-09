@@ -5,6 +5,5 @@ package com.mitchell.claims.domain;
  */
 public enum ClaimStatus {
     OPEN,
-    IN_PROGRESS,
     CLOSED
 }
