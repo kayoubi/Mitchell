@@ -1,4 +1,4 @@
-package com.mitchell.claims.web.helper;
+package com.mitchell.claims.web.util;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import java.lang.reflect.InvocationTargetException;

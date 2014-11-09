@@ -20,18 +20,18 @@ public class GlobalController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public @ResponseBody String handleException(Exception e) {
-        return "ERROR";
+        return ERROR;
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public @ResponseBody String handleMarshallingException(HttpMessageNotReadableException e) throws Exception {
-        return "MARSHALLING";
+        return MARSHALLING;
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public @ResponseBody String handleValidationException(MethodArgumentNotValidException e) throws Exception {
-        return "VALIDATION";
+        return VALIDATION;
     }
 }

@@ -3,6 +3,7 @@ package com.mitchell.claims.domain;
 import org.hibernate.validator.constraints.NotEmpty;
 import com.mitchell.claims.domain.validator.ValidLossInfo;
 import javax.persistence.*;
+import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -13,7 +14,6 @@ import java.util.List;
  */
 @Entity
 @XmlRootElement(name = "MitchellClaim")
-@XmlType(name = "cla", namespace="http://www.mitchell.com/examples/claim")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Claim implements Serializable {
     @Id
@@ -23,6 +23,7 @@ public class Claim implements Serializable {
     private String claimantFirstName;
     private String claimantLastName;
     private ClaimStatus claimStatus;
+    @Past
     private Date lossDate;
     @ValidLossInfo
     @OneToOne(cascade = {CascadeType.ALL})

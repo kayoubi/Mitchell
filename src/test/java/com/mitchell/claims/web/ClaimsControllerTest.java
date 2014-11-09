@@ -38,6 +38,8 @@ public class ClaimsControllerTest {
     @Mock
     private ClaimService claimService;
 
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
@@ -60,7 +62,7 @@ public class ClaimsControllerTest {
     public void testSearch() throws Exception {
         this.mockMvc.perform(get("/mitchell/claims?lossDateFrom=2014-07-10&lossDateTo=2014-07-11").accept(MediaType.APPLICATION_XML))
                 .andExpect(status().is(200));
-        verify(claimService).search(new SimpleDateFormat("yyyy-MM-dd").parse("2014-07-10"), new SimpleDateFormat("yyyy-MM-dd").parse("2014-07-11"));
+        verify(claimService).search(dateFormat.parse("2014-07-10"), dateFormat.parse("2014-07-11"));
     }
 
     @Test
@@ -74,6 +76,7 @@ public class ClaimsControllerTest {
     public void testCreate() throws Exception {
         String body =   "<cla:MitchellClaim xmlns:cla=\"http://www.mitchell.com/examples/claim\">" +
                             "<cla:claimantFirstName>khaled</cla:claimantFirstName>" +
+                            "<cla:lossDate>2014-11-09</cla:lossDate>" +
                             "<cla:vehicles>" +
                                 "<cla:vehicleDetails>" +
                                     "<cla:vin>3Ue</cla:vin>" +
@@ -87,6 +90,7 @@ public class ClaimsControllerTest {
                 .andExpect(status().is(200));
 
         Claim c = new ClaimBuilder().withFirstName("khaled")
+                                    .withLossDate(dateFormat.parse("2014-11-09"))
                                     .withVehicle(new VehicleBuilder().withVin("3Ue").build())
                                     .withLossInf(new LossInfoBuilder().withCauseOfLoss("Collision").build())
                                     .build();
