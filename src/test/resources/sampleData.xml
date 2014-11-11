@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <dataset>
     <claim id="1" claim_Number="5391224937543113779" loss_Date="2014-11-08"/>
-    <vehicle id ="1" vin="vin1-1"/>
-    <vehicle id ="2" vin="vin1-2"/>
+    <vehicle id ="1" vin="vin1-1" model_year="2010"/>
+    <vehicle id ="2" vin="vin1-2" model_year="2001"/>
     <claim_vehicles claim_id="1" vehicles_id="1"/>
     <claim_vehicles claim_id="1" vehicles_id="2"/>
 
     <claim id="2" claim_Number="5391224937543113779" loss_Date="2014-10-08"/>
-    <vehicle id ="3" vin="vin2-1"/>
-    <vehicle id ="4" vin="vin2-2"/>
+    <vehicle id ="3" vin="vin2-1" model_year="2009"/>
+    <vehicle id ="4" vin="vin2-2" model_year="2000"/>
     <claim_vehicles claim_id="2" vehicles_id="3"/>
     <claim_vehicles claim_id="2" vehicles_id="4"/>
 </dataset>

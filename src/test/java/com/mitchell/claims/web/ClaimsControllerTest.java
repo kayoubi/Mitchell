@@ -8,6 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
@@ -77,8 +78,10 @@ public class ClaimsControllerTest {
         String body =   "<cla:MitchellClaim xmlns:cla=\"http://www.mitchell.com/examples/claim\">" +
                             "<cla:claimantFirstName>khaled</cla:claimantFirstName>" +
                             "<cla:lossDate>2014-11-09</cla:lossDate>" +
+                            "<cla:claimNumber>123</cla:claimNumber>" +
                             "<cla:vehicles>" +
                                 "<cla:vehicleDetails>" +
+                                    "<cla:modelYear>2001</cla:modelYear>" +
                                     "<cla:vin>3Ue</cla:vin>" +
                                 "</cla:vehicleDetails>" +
                             "</cla:vehicles>" +
@@ -91,7 +94,8 @@ public class ClaimsControllerTest {
 
         Claim c = new ClaimBuilder().withFirstName("khaled")
                                     .withLossDate(dateFormat.parse("2014-11-09"))
-                                    .withVehicle(new VehicleBuilder().withVin("3Ue").build())
+                                    .withClaimNumber(123L)
+                                    .withVehicle(new VehicleBuilder().withVin("3Ue").withModelYear(2001).build())
                                     .withLossInf(new LossInfoBuilder().withCauseOfLoss("Collision").build())
                                     .build();
         verify(claimService).create(c);
@@ -175,6 +179,32 @@ public class ClaimsControllerTest {
                 .andExpect(status().is(200));
         verify(claimService).update(new ClaimBuilder().withId(1L).withFirstName("test")
                 .withLossDate(now).withVehicle(new VehicleBuilder().withModelYear(2014).build()).build());
+    }
+
+    @Test
+    @Transactional
+    public void testUpdateVehicle() throws Exception {
+        Date now = new Date();
+        when(claimService.get(anyLong())).thenReturn(
+                new ClaimBuilder()
+                        .withId(1L)
+                        .withLossDate(now)
+                        .withVehicle(new VehicleBuilder().withId(1L).withModelYear(2014).withVin("vin1").build())
+                        .build());
+
+        String body =   "<cla:MitchellClaim xmlns:cla=\"http://www.mitchell.com/examples/claim\">" +
+                            "<cla:claimantFirstName>test</cla:claimantFirstName>" +
+                            "<cla:vehicles>" +
+                                "<cla:vehicleDetails>" +
+                                    "<cla:id>1</cla:id>" +
+                                    "<cla:vin>vin2</cla:vin>" +
+                                "</cla:vehicleDetails>" +
+                            "</cla:vehicles>" +
+                        "</cla:MitchellClaim>";
+        this.mockMvc.perform(put("/mitchell/claims/1").content(body).contentType(MediaType.APPLICATION_XML))
+                .andExpect(status().is(200));
+        verify(claimService).update(new ClaimBuilder().withId(1L).withFirstName("test")
+                .withLossDate(now).withVehicle(new VehicleBuilder().withId(1L).withModelYear(2014).withVin("vin2").build()).build());
     }
 
     @Test

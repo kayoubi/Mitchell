@@ -50,9 +50,15 @@ public class ClaimsController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Claim update(@PathVariable Long id, @RequestBody Claim claim) throws Exception {
         claim.setId(id);
+        NullAwareBeanUtilsBean copier = new NullAwareBeanUtilsBean();
 
         Claim original = claimService.get(id);
-        new NullAwareBeanUtilsBean().copyProperties(original, claim);
+        copier.copyProperties(original, claim);
+        if (claim.getVehicles() != null && claim.getVehicles().size() > 0) {
+            for (Vehicle v : claim.getVehicles()) {
+                copier.copyProperties(original.getVehicle(v.getId()), v);
+            }
+        }
         return claimService.update(original);
     }
 
@@ -65,11 +71,7 @@ public class ClaimsController {
     public Vehicle getVehicle(@PathVariable Long claimId, @PathVariable Long id) {
         Claim claim = claimService.get(claimId);
         if (claim != null) {
-            for (Vehicle vehicle : claim.getVehicles()) {
-                if (vehicle.getId().equals(id)) {
-                    return vehicle;
-                }
-            }
+            return claim.getVehicle(id);
         }
         return null;
     }

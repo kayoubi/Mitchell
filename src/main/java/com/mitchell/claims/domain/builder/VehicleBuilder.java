@@ -12,6 +12,11 @@ public class VehicleBuilder {
         vehicle = new Vehicle();
     }
 
+    public VehicleBuilder withId(Long id) {
+        vehicle.setId(id);
+        return this;
+    }
+
     public VehicleBuilder withVin(String vin) {
         vehicle.setVin(vin);
         return this;

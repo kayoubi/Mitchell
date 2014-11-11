@@ -1,19 +1,24 @@
 package com.mitchell.claims.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 /**
  * @author Khaled Ayoubi
  */
 @Entity
+@XmlRootElement(name="vehicleDetails")
 public class Vehicle {
     @Id
     @GeneratedValue
     private Long id;
     private String vin;
+    @NotNull
     private Integer modelYear;
     private String makeDescription;
     private String modelDescription;

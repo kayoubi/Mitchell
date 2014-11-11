@@ -3,6 +3,7 @@ package com.mitchell.claims.domain;
 import org.hibernate.validator.constraints.NotEmpty;
 import com.mitchell.claims.domain.validator.ValidLossInfo;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -19,6 +20,7 @@ public class Claim implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull
     private Long claimNumber;
     private String claimantFirstName;
     private String claimantLastName;
@@ -108,6 +110,17 @@ public class Claim implements Serializable {
 
     public void setVehicles(List<Vehicle> vehicles) {
         this.vehicles = vehicles;
+    }
+
+    public Vehicle getVehicle(Long id) {
+        if (getVehicles() != null) {
+            for (Vehicle v : getVehicles()) {
+                if (v.getId().equals(id)) {
+                    return v;
+                }
+            }
+        }
+        return null;
     }
 
     @Override

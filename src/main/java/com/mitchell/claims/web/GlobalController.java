@@ -20,6 +20,7 @@ public class GlobalController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public @ResponseBody String handleException(Exception e) {
+        e.printStackTrace();
         return ERROR;
     }
 
